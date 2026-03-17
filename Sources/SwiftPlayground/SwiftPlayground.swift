@@ -7,61 +7,52 @@ struct SwiftPlayground {
         let length: Double = 6
         let width: Double = 4.5
         let height: Double = 2.7
-
-        func printRoomIntro() {
-        print("This program calculates room area and volume.")
-        print("It also finds the usable space after furniture.")
-        }
         
-        printRoomIntro()
-
-        func printDivider() {
-            print("--------")
+        /*
+        Calculates the area of a room
+        - Parameters:
+        --- length: the length of the room in metres
+        --- width: the width of the room in metres
+        -Returns: Calculated area of the room as a double
+        */
+        func roomArea(length: Double, width: Double) -> Double {
+            // return area
+            length * width
         }
-        printDivider()
-        print("Summary here")
-        printDivider()
-
-        func printUnitsNote() {
-            print("All measurements are in metres")
-        }
-
-        printUnitsNote()
-
-        func printGoodbye() {
-            print("Done. Thanks for using the calculator.")
-        }
-        printGoodbye()
-        
+        /*
+        Calculates the volume of a room
+        - Parameters:
+        ---length: the length of the room in metres
+        ---width: the width of the room in metres
+        ---height: the height of the room in metres
+        Returns: Calculated volume of the room
+        */
         func roomVolume() -> Double {
             // return volume using stored constants
             length * width * height
         }
-        
-        func printArea(length: Double, width: Double) {
-            // calculate and print area
-            print(length * width, "m²")
+        /*
+        Checks if a room is small
+        - Parameters
+        --- volume: the volume of the room in m³
+        -Boolean: a variable that is either true or false
+        Returns: true if the room is under 60 m³, false if it is over 60 m³
+        */
+        func isRoomSmall(volume: Double) -> Bool {
+            volume < 60
         }
-        // confirm roomVolume function works
-        roomVolume()
-        print(roomVolume(), "m³")
-        
-        // confirm printArea function works
-        printArea(length: length, width: width)
-        
-        func area(length: Double, width: Double) -> Double {
-            // return area
-            length * width
+
+        /*
+        Reduces the height of a room by a percentage
+        - Parameters:
+        --- original: The original height of the room in meters
+        --- reductionPercent: The percentage that the original height is being reduced by
+        Returns: Reduced value in meters
+        */
+        func reducedHeight(original: Double, reductionPercent: Double) -> Double {
+            let multiplier = (100.0 - reductionPercent) / 100.0
+            return original * multiplier
         }
-        // confirm area function works
-        print(area(length: length, width: width))
-        
-        func volume(length: Double, width: Double, height: Double) -> Double {
-            // returns volume
-            length * width * height
-        }
-        // confirm volume function works
-        print(volume(length: length, width: width, height: height))
     }
 }
 
