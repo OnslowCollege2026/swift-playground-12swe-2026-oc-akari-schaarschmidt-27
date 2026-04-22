@@ -6,109 +6,62 @@
 @main
 struct SwiftPlayground {
     static func main() {
-        func divider() {
-            print("=======================================================================================================")
-        }
-        divider()
         
-        let temperatures = [
-            [1, 2, 3, 4],
-            [5, 6, 7, 8], 
-            [9, 10, 11, 12,],
-        ]
-
-        let firstRow = temperatures[0]
-        print("first row:")
-        print(firstRow)
-
-        print("row 2 column 3:")
-        print(temperatures[1][2])
-
-        print("row 3 column 1:")
-        print(temperatures[2][0])
-
-        var row2Total: Int = 0
-        var entries: Int = 0
-        for values in temperatures[1] {
-            row2Total += values
-            entries += 1
-        }
-        print("entries:")
-        print(entries)
-        var average = Double(row2Total) / Double(entries)
-        print("row 2 average")
-        print(average)
+        let size: Int = 6
         
-        divider()
-
-        let table = [
-            [2, 4, 6],
-            [8, 10, 12],
-            [14, 16, 18]
-        ]
-
-        var tableValues: Int = 0
-        for item in table {
-            for item2 in item {
-                print(item2)
-                tableValues += 1
-            }
+        // if the size is larger than 26 or smaller than 1, print an error as the english alphabet only goes up to 26 letters
+        if size >= 27 || size < 1 {
+            print("Error: Invalid size number, please choose a number from 1-26")
+            return
         }
-        print(tableValues, "values were printed")
         
-        divider()
-
-        func columnTotal(in table: [[Int]], column: Int) {
-            var columnTotal: Int = 0
-            let table = [
-                [3, 5, 7, 9],
-                [2, 4],
-                [8, 6, 1],
-                [10]
-            ]
-            if column == 0 {
-                columnTotal = table[0][column] + table[1][column] + table[2][column] + table[3][column]
+        // makes the board for you based off of the inputed size instead of having to manually make the board
+        var ocean = Array(repeating: Array(repeating: "~", count: size), count: size)
+        
+        // creates a seperate board of the same size to keep track of the players guesses
+        var guesses = Array(repeating: Array(repeating: "~", count: size), count: size)
+        
+        
+        // sets ships on the board
+        ocean[1][3] = "S"
+        ocean[2][3] = "S"
+        ocean[4][0] = "S"
+        ocean[5][4] = "S"
+        
+        
+        // function to print the board
+        func printBoard(_ board: [[String]]) {
+            var sizeValue: Int = -1
+            
+            // alphabet for coordinates system, ex; A1, B5, C2
+            // this is why the size can only go up to 26
+            let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+            
+            // coordinateLetters variable to create the coordinate letters at the top of the board based off of the inputed size
+            var coordinateLetters: String = ""
+            // letter variable to keep track of what letter needs to be put on the board and make sure theres no duplicate letters
+            var letter = -1
+            
+            for _ in guesses[0] {
+                letter += 1
+                coordinateLetters += "[ \(alphabet[letter]) ]"
+                
             }
-            if column == 1 {
-                columnTotal = table[0][column] + table[1][column] + table[2][column]
+            
+            // prints the coordinate letters at the top of the board
+            print(coordinateLetters)
+            
+            // prints the "guesses" board and puts a number on the right to keep track of what row it is
+            for _ in guesses[0] {
+                sizeValue += 1
+                print(guesses[sizeValue], sizeValue + 1)
             }
-            if column == 2 {
-                columnTotal = table[0][column] + table[2][column]
-            }
-            if column == 3 {
-                columnTotal = table[0][column]
-            }
-            //columnTotal = table[0][column] + table[1][column] + table[2][column] + table[3][column]
-            print(columnTotal)
-
+            
+            
         }
-        columnTotal(in: [[0]], column: 3)
 
-        divider()
-
-        func maxValue(in: [[Double]]) -> Double {
-            var readings: [[Double]] = []
-            readings = [[1.5, 3.2, 2.8],
-                        [7.1],
-                        [4.4, 6.0],
-                        [5.9, 8.3, 0.7, 2.2]]
-            if readings.isEmpty {
-                print("Error: Array is empty")
-                return 0.0
-            }
-            var maxValue: Double = 0.0
-            for row in readings {
-                for value in row {
-                    if value >= maxValue {
-                        maxValue = value
-                    }
-                }
-            }
-            print(maxValue, "is the maximum value in this array")
-            return maxValue
-            }
-        
-        maxValue(in: [[0.0]])
+        // call the function to print the board
+        printBoard([[""]])
     }
 }
 
