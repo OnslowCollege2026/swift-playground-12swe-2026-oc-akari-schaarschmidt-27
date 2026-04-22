@@ -1,67 +1,37 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-//import Foundation
+import Foundation
 
 @main
 struct SwiftPlayground {
     static func main() {
+        //constants:
+        //  - Grams and Kilos
+        let kumara: Double = 0.1 // 1 kumara = 100 grams/0.1 kilos
+        let maxKilosPerBag: Double = 5.0 // the maximum amount of kilograms per bag is 5 kilograms/5000 grams
         
-        let size: Int = 6
-        
-        // if the size is larger than 26 or smaller than 1, print an error as the english alphabet only goes up to 26 letters
-        if size >= 27 || size < 1 {
-            print("Error: Invalid size number, please choose a number from 1-26")
-            return
-        }
-        
-        // makes the board for you based off of the inputed size instead of having to manually make the board
-        var ocean = Array(repeating: Array(repeating: "~", count: size), count: size)
-        
-        // creates a seperate board of the same size to keep track of the players guesses
-        var guesses = Array(repeating: Array(repeating: "~", count: size), count: size)
+        //  - Prices
+        let pricePerKilo: Double = 3.00 // price of kumara per kilo
+        let bagPrice: Double = 0.20 // price for bags 20 cents
         
         
-        // sets ships on the board
-        ocean[1][3] = "S"
-        ocean[2][3] = "S"
-        ocean[4][0] = "S"
-        ocean[5][4] = "S"
+        // Variables
+        var stock: Double = 0.0 // the current stock of kumara in grams
         
-        
-        // function to print the board
-        func printBoard(_ board: [[String]]) {
-            var sizeValue: Int = -1
+        // bin can fit 50 kilos of kumara and there are 5000 bags
+
+
+        func addStock() {
+            print("How much Kumara would you like to add in Kilograms?")
             
-            // alphabet for coordinates system, ex; A1, B5, C2
-            // this is why the size can only go up to 26
-            let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-            
-            // coordinateLetters variable to create the coordinate letters at the top of the board based off of the inputed size
-            var coordinateLetters: String = ""
-            // letter variable to keep track of what letter needs to be put on the board and make sure theres no duplicate letters
-            var letter = -1
-            
-            for _ in guesses[0] {
-                letter += 1
-                coordinateLetters += "[ \(alphabet[letter]) ]"
-                
+            if let userInput = readLine(), let amount = Int(userInput) {
+                //stock += amount
             }
-            
-            // prints the coordinate letters at the top of the board
-            print(coordinateLetters)
-            
-            // prints the "guesses" board and puts a number on the right to keep track of what row it is
-            for _ in guesses[0] {
-                sizeValue += 1
-                print(guesses[sizeValue], sizeValue + 1)
-            }
-            
-            
+            print(stock, "Grams of Kumara in stock")
         }
 
-        // call the function to print the board
-        printBoard([[""]])
+        addStock()
     }
 }
 
