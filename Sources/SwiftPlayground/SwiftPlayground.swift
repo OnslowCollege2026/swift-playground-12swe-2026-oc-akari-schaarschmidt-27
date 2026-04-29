@@ -21,7 +21,8 @@ struct SwiftPlayground {
         
         // Variables
         var stock: Double = 0.0 // the current stock of kumara in grams
-        var currentMoney: Double = 0.0
+        var currentBalance: Double = 0.0
+        var record: [[String]] = [[""]]
         
         // bin can fit 50 kilos of kumara and there are 5000 bags
 
@@ -35,10 +36,9 @@ struct SwiftPlayground {
             print("1. Add stock")
             print("2. View stock")
             print("3. Sell")
-            print("")
-            print("")
-            print("Info")
-            print("_. View history")
+            print("4. View Balance")
+            print("5. Info")
+            print("6. View history")
             divider()
             if let userInput = readLine(), let selection = Int(userInput) {
                 if selection == 1 {
@@ -54,13 +54,15 @@ struct SwiftPlayground {
                     sell()
                 }
                 if selection == 4 {
-                    
+                    divider()
+                    print("You currently have $\(currentBalance)")
+                    menu()
                 }
                 if selection == 5 {
                     
                 }
                 if selection == 6 {
-                    
+                    viewHistory()
                 }
 
             }
@@ -102,22 +104,45 @@ struct SwiftPlayground {
             print("How much kumara are you selling in kilograms?")
             if let userInput = readLine(), let amount = Double(userInput) {
                 if amount <= stock && amount >= 0.1 {
-                    var moneyMade: Double = amount * kiloPrice
+                    // constants
+                    let kumaraCost: Double = amount * kiloPrice
                     let bags: Double = amount / 5
+                    //variables
                     var roundUpBags: Int = Int(bags)
+                    var totalMoneyMade: Double = 0.0
+                    
                     if bags > Double(roundUpBags) {
                         roundUpBags += 1
                     }
-                    print(roundUpBags)
-                    moneyMade += Double(roundUpBags) * bagPrice
-                    print(moneyMade)
-                    stock - amount
-                    /// ====================================================== do money stuff add money to the currentmoney variable ighnisfnhigjdfgjkdnbv
+
+                    totalMoneyMade += kumaraCost
+                    totalMoneyMade += Double(roundUpBags) * bagPrice
+                    stock -= amount
+                    currentBalance += totalMoneyMade
+
+                    print("Kumara: $\(kumaraCost)")
+                    print("Bags: $\(Double(roundUpBags) * bagPrice)")
+                    print("Total: $\(totalMoneyMade) earned")
+                    print(stock, "Kilograms of kumara now in stock")
+                    /*
+                    let recordLine1: String = " - Kumara: $\(kumaraCost)"
+                    let recordLine2: String = " - Bags: $\(Double(roundUpBags) * bagPrice)"
+                    let recordLine3: String = " - Total: $\(totalMoneyMade) earned"
+                    let recordLine4: String = " - \(stock) Kilograms of kumara in stock after this sale"
+                                                                                                                                                                                                                                                                                                            
+                    record += recordLine1 + recordLine2 + recordLine3 + recordLine4 ////////// turn record into 2d array ----------------------------a=-=-=--=-=--=--------------=========================================================================================================================-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-===================-=-==============================*/
+
+                    menu()
                 } else {
                     print("Invalid Number, please choose a number from 0.1 - 50.0")
                     sell()
                 }
             }
+        }
+        
+        func viewHistory() {
+            divider()
+            print(record)
         }
     }
 }
