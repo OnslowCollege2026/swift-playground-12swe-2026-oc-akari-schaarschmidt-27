@@ -22,7 +22,10 @@ struct SwiftPlayground {
         // Variables
         var stock: Double = 0.0 // the current stock of kumara in grams
         var currentBalance: Double = 0.0
-        var record: [[String]] = [[""]]
+        var record: [[String]] = []
+        var kilosPerBagAverageEntries: [Double] = [0.0]
+        var earnedAverageEntries: [Double] = [0.0]
+        
         
         // bin can fit 50 kilos of kumara and there are 5000 bags
 
@@ -37,8 +40,9 @@ struct SwiftPlayground {
             print("2. View stock")
             print("3. Sell")
             print("4. View Balance")
-            print("5. Info")
+            print("5. Stat Summary")
             print("6. View history")
+            print("7. Exit")
             divider()
             if let userInput = readLine(), let selection = Int(userInput) {
                 if selection == 1 {
@@ -59,10 +63,13 @@ struct SwiftPlayground {
                     menu()
                 }
                 if selection == 5 {
-                    
+                    divider()
                 }
                 if selection == 6 {
                     viewHistory()
+                }
+                if selection == 7 {
+                    exit(1)
                 }
 
             }
@@ -90,7 +97,7 @@ struct SwiftPlayground {
                         addStock()
                     }
                     } else {
-                        // pritns an error if the input was invalid and asks again for user input
+                        // prints an error if the input was invalid and asks again for user input
                         print("Invalid Number, Please choose a number from 1 to 50")
                         addStock()
                 }
@@ -124,13 +131,11 @@ struct SwiftPlayground {
                     print("Bags: $\(Double(roundUpBags) * bagPrice)")
                     print("Total: $\(totalMoneyMade) earned")
                     print(stock, "Kilograms of kumara now in stock")
-                    /*
-                    let recordLine1: String = " - Kumara: $\(kumaraCost)"
-                    let recordLine2: String = " - Bags: $\(Double(roundUpBags) * bagPrice)"
-                    let recordLine3: String = " - Total: $\(totalMoneyMade) earned"
-                    let recordLine4: String = " - \(stock) Kilograms of kumara in stock after this sale"
-                                                                                                                                                                                                                                                                                                            
-                    record += recordLine1 + recordLine2 + recordLine3 + recordLine4 ////////// turn record into 2d array ----------------------------a=-=-=--=-=--=--------------=========================================================================================================================-=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-===================-=-==============================*/
+                    
+                    record.append(["Kumara: \(amount) Kilograms - $\(kumaraCost)", "Bags: \(roundUpBags) Bags - $\(Double(roundUpBags) * bagPrice)", "Total: $\(totalMoneyMade)", "\(stock), Kilograms of kumara in stock after this sale"])
+                    kilosPerBagAverageEntries.append(amount)
+                    earnedAverageEntries.append(totalMoneyMade)
+
 
                     menu()
                 } else {
@@ -142,7 +147,42 @@ struct SwiftPlayground {
         
         func viewHistory() {
             divider()
-            print(record)
+            var numCount: Int = 0
+            for recordLine in record {
+                numCount += 1
+                print("--- Sale #\(numCount):")
+                for line in recordLine {
+                    print(line)
+                }
+            }
+            menu()
+        }
+        func statSummary() {
+            // kilosPerBagAverageEntries
+            // earnedAverageEntries
+            var kilosEntryCount: Int = 0
+            var earnedEntryCount: Int = 0
+            var kilosPerBagAverage: Double = 0.0
+            var earnedAverage: Double = 0.0
+
+            for entry in kilosPerBagAverageEntries {
+                kilosEntryCount += 1
+                kilosPerBagAverage += entry
+            }
+            for entry in earnedAverageEntries {
+                earnedEntryCount += 1
+                earnedAverage += entry
+            }
+
+            kilosPerBagAverage /= Double(kilosEntryCount)
+            earnedAverage /= Double(earnedEntryCount)
+            // earnedAverage /= |||||||||||||||||| finish average system, figure out how to get average per bag rather than average per sale 
+
+
+            print("Average kilograms of Kumara per bag:")
+            print(kilosPerBagAverage)
+            print("Average amount earned per bag:")
+            print(earnedAverage)
         }
     }
 }
