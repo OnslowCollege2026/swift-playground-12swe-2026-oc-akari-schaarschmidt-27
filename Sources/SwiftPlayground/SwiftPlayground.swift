@@ -23,8 +23,8 @@ struct SwiftPlayground {
         var stock: Double = 0.0 // the current stock of kumara in grams
         var currentBalance: Double = 0.0
         var record: [[String]] = []
-        var kilosPerBagAverageEntries: [Double] = [0.0]
-        var earnedAverageEntries: [Double] = [0.0]
+        var averageKilosPerBagArray: [Double] = []
+        var averageEarnedPerBagArray: [Double] = []
         
         
         // bin can fit 50 kilos of kumara and there are 5000 bags
@@ -64,9 +64,12 @@ struct SwiftPlayground {
                 }
                 if selection == 5 {
                     divider()
+                    statSummary()
+                    menu()
                 }
                 if selection == 6 {
                     viewHistory()
+                    menu()
                 }
                 if selection == 7 {
                     exit(1)
@@ -133,8 +136,12 @@ struct SwiftPlayground {
                     print(stock, "Kilograms of kumara now in stock")
                     
                     record.append(["Kumara: \(amount) Kilograms - $\(kumaraCost)", "Bags: \(roundUpBags) Bags - $\(Double(roundUpBags) * bagPrice)", "Total: $\(totalMoneyMade)", "\(stock), Kilograms of kumara in stock after this sale"])
-                    kilosPerBagAverageEntries.append(amount)
-                    earnedAverageEntries.append(totalMoneyMade)
+                    let averageKilosPerBag: Double = amount / Double(roundUpBags)
+                    averageKilosPerBagArray.append(averageKilosPerBag)
+                    
+                    let averageEarnedPerBag: Double = totalMoneyMade / Double(roundUpBags)
+                    averageEarnedPerBagArray.append(averageEarnedPerBag)
+                    
 
 
                     menu()
@@ -158,31 +165,29 @@ struct SwiftPlayground {
             menu()
         }
         func statSummary() {
-            // kilosPerBagAverageEntries
-            // earnedAverageEntries
             var kilosEntryCount: Int = 0
-            var earnedEntryCount: Int = 0
-            var kilosPerBagAverage: Double = 0.0
-            var earnedAverage: Double = 0.0
-
-            for entry in kilosPerBagAverageEntries {
+            var kilosEntriesSum: Double = 0.0
+            var averageKilosPerBag: Double = 0.0
+            for entry in averageKilosPerBagArray {
                 kilosEntryCount += 1
-                kilosPerBagAverage += entry
+                kilosEntriesSum += entry
+                averageKilosPerBag = kilosEntriesSum / Double(kilosEntryCount)
+
             }
-            for entry in earnedAverageEntries {
+            var earnedEntryCount: Int = 0
+            var earnedEntriesSum: Double = 0.0
+            var averageEarnedPerBag: Double = 0.0
+            for entry in averageEarnedPerBagArray {
                 earnedEntryCount += 1
-                earnedAverage += entry
+                earnedEntriesSum += entry
+                averageEarnedPerBag = earnedEntriesSum / Double(earnedEntryCount)
+
             }
-
-            kilosPerBagAverage /= Double(kilosEntryCount)
-            earnedAverage /= Double(earnedEntryCount)
-            // earnedAverage /= |||||||||||||||||| finish average system, figure out how to get average per bag rather than average per sale 
-
 
             print("Average kilograms of Kumara per bag:")
-            print(kilosPerBagAverage)
+            print(averageKilosPerBag, "Kilograms")
             print("Average amount earned per bag:")
-            print(earnedAverage)
+            print("$\(averageEarnedPerBag)")
         }
     }
 }
